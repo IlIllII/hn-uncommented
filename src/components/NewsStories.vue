@@ -14,9 +14,9 @@ export default {
             try {
                 const response = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
                 const storyIds = await response.json();
-                const top10Ids = storyIds.slice(0, 30);
+                const topIds = storyIds.slice(0, 30);
 
-                const storyPromises = top10Ids.map(id =>
+                const storyPromises = topIds.map(id =>
                     fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then(response => response.json())
                 );
 
@@ -37,8 +37,12 @@ export default {
             return `${padding}${scoreString}`;
         },
         getDomain(url) {
-            const urlObject = new URL(url);
-            return urlObject.hostname;
+            try {
+                const urlObject = new URL(url);
+                return urlObject.hostname;
+            } catch (error) {
+                return "";
+            }
         }
     }
 }
