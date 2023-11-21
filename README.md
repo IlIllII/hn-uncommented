@@ -31,3 +31,7 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## Note
+
+The weekly edition of hacker news is provided by the Algolia HN API. This API is reached through a cors proxy running on a cloudflare worker.
