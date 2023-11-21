@@ -3,25 +3,44 @@ export default {
     data() {
         return {
             stories: [],
-            max_score: 0
+            max_score: 0,
+            weeksAgo: 1,
+            // startDate: new Date(),
+            // endDate: new Date(),
+            checked: false
         };
     },
+    props: {
+        isWeekly: {
+            type: Boolean,
+        },
+        startDate: {
+            type: Date,
+        },
+        endDate: {
+            type: Date,
+        },
+    },
     mounted() {
-        this.fetchTopStories();
+        this.getStories(this.isWeekly);
+    },
+    watch: {
+        // eslint-disable-next-line no-unused-vars
+        isWeekly: function (newVal, oldVal) {
+            this.getStories(newVal);
+        },
+        // eslint-disable-next-line no-unused-vars
+        startDate: function (newVal, oldVal) {
+            this.getStories(this.isWeekly);
+        },
     },
     methods: {
         async fetchWeeklyStories() {
             try {
-                const numWeeksAgo = 1;
-                const lastSunday = new Date();
-                lastSunday.setDate(lastSunday.getDate() - lastSunday.getDay());
-                lastSunday.setHours(0, 0, 0, 0);
-                const lastSundayTimestamp = Math.floor(lastSunday.getTime() / 1000) - 604800 * numWeeksAgo;
-                const previousSundayTimestamp = lastSundayTimestamp - 604800;
-                const endDate = new Date(lastSundayTimestamp * 1000);
-                const startDate = new Date(previousSundayTimestamp * 1000);
-                console.log(startDate, endDate)
-                const res = await fetch("http://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=created_at_i>" + previousSundayTimestamp + ",created_at_i<" + lastSundayTimestamp + ",points>300&hitsPerPage=1000").then(res => res.json());
+                let dateRange = {endDate: this.endDate, startDate: this.startDate}
+                const startTimestamp = Math.floor(dateRange.startDate.getTime() / 1000);
+                const endTimestamp = Math.floor(dateRange.endDate.getTime() / 1000);
+                const res = await fetch("http://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=created_at_i>" + startTimestamp + ",created_at_i<" + endTimestamp + ",points>300&hitsPerPage=1000").then(res => res.json());
                 const stories = res.hits.sort((a, b) => b.points - a.points).slice(0, 30);
                 let formattedStories = []
                 for (const story of stories) {
@@ -61,9 +80,9 @@ export default {
                 console.error("An error occurred while fetching data:", error);
             }
         },
-        async fetchTopStories() {
-            let b = true;
-            let stories = b ? await this.fetchWeeklyStories() : await this.fetchFrontPageStories();
+        async getStories(isWeekly) {
+            console.log(isWeekly)
+            let stories = isWeekly ? await this.fetchWeeklyStories() : await this.fetchFrontPageStories();
             this.stories = stories.sort((a, b) => b.points - a.points).slice(0, 30);
             this.max_score = Math.max(...this.stories.map(story => story.points));
         },
@@ -83,7 +102,7 @@ export default {
             } catch (error) {
                 return "";
             }
-        }
+        },
     }
 }
 </script>
@@ -92,7 +111,6 @@ export default {
     <div class="news-stories">
         <ul>
             <li v-for="story in stories.sort((a, b) => b.score - a.score)" :key="story.id">
-                <!-- <a :href="story.url" target="_blank" rel="noopener">[{{ this.paddedScore(story.score) }}] {{ story.title }} </a> -->
                 <a :href="story.url" target="_blank" rel="noopener">[{{ this.paddedScore(story.points) }}] {{ story.title }}
                 </a>
                 <span> {{ getDomain(story.url) }}</span>
@@ -114,6 +132,10 @@ a {
 
 ul {
     list-style: none;
-    /* padding: 0; */
+}
+/* TODO: Wrap list items */
+div {
+    border-top: 1px solid #828282;
+    padding: 1rem 0 0 0;
 }
 </style>

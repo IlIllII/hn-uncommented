@@ -1,17 +1,36 @@
 <script setup>
+import { ref } from 'vue';
 import NewsStories from './components/NewsStories.vue';
+import WeeklySlider from './components/WeeklySlider.vue';
+import DateRange from './components/DateRange.vue';
 
+const isWeekly = ref(true)
+const startDate = ref(new Date())
+const endDate = ref(new Date())
+
+console.log(isWeekly)
+const toggleWeekly = (newValue) => {
+  console.log("App.vue: toggleWeekly " + newValue)
+  isWeekly.value = !newValue
+}
+const changeDates = (newDates) => {
+  console.log("App.vue: toggleDates " + newDates)
+  startDate.value = newDates.startDate
+  endDate.value = newDates.endDate
+}
 </script>
 
 <template>
   <header>
     <h1>Hacker News: Uncommented</h1>
   </header>
-  
-  <main>
-    <NewsStories />
-  </main>
 
+  <main>
+    <WeeklySlider @toggle-weekly="toggleWeekly" />
+    <DateRange v-if="isWeekly" @date-range="changeDates"/>
+    <NewsStories :isWeekly="isWeekly" :startDate="startDate" :endDate="endDate"/>
+    <!-- <span>Found a bug?</span> -->
+  </main>
 </template>
 
 <style scoped>
@@ -19,20 +38,25 @@ header {
   line-height: 1.5;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+main {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  /* border: 1px solid #ddd; */
+  min-width: 1024px;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: auto;
 }
 
 @media (min-width: 1024px) {
   header {
     display: flex;
     place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
+    /* padding-right: calc(var(--section-gap) / 2); */
   }
 
   header .wrapper {
@@ -40,11 +64,5 @@ header {
     place-items: flex-start;
     flex-wrap: wrap;
   }
-}
-h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: auto;
-  padding: 1rem;
 }
 </style>
