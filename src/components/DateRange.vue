@@ -43,7 +43,7 @@ export default {
 
 
 <template>
-    <div>
+    <div class="bordered">
         <input type="number" min="1" max="52" v-model="weeksAgo" @change="this.computeDateRange">
         <span>weeks ago ({{ this.zeroPaddedDate(this.startDate) }} to {{ this.zeroPaddedDate(this.endDate) }})</span>
     </div>
@@ -51,21 +51,24 @@ export default {
 
 
 <style scoped>
+.bordered {
+    border: 1px solid var(--color-text);
+    border-radius: 12px;
+    padding: 0 4px;
+}
+
 div {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin: 0 0 10px 0;
     gap: 10px;
-    padding: 0 0 10px 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 input[type="number"] {
     padding: 8px;
     border: 1px solid var(--color-text);
-    border-radius: 4px;
+    border: none;
+    border-radius: 12px;
     background-color: var(--color-background);
     color: var(--color-text);
     width: 60px;

@@ -29,16 +29,13 @@ export default {
 <style scoped>
 span {
     margin-left: 1rem;
+    margin-right: 1rem;
     color: var(--color-text);
     font-size: 0.8rem;
 }
 
 .edition-slider {
-    margin: auto;
-    padding: 0 0 1rem 0;
-    position: relative;
-    display: inline-block;
-    width: 200px;
+    display: flex;
     user-select: none;
 }
 
@@ -50,8 +47,6 @@ span {
 
 .edition-label {
     display: flex;
-    align-items: center;
-    justify-content: space-around;
     cursor: pointer;
     background-color: var(--color-background);
     border-radius: 12px;
@@ -68,7 +63,7 @@ span {
     position: absolute;
     top: 4px;
     left: -11px;
-    width: 107px;
+    width: 76px;
     height: 22px;
     /* background-color: white; */
     background-color: var(--color-background);
@@ -79,6 +74,6 @@ span {
 }
 
 .edition-toggle:checked+.edition-label .edition-handle {
-    transform: translateX(95px) scaleX(0.75);
+    transform: translateX(76px);
 }
 </style>

@@ -23,34 +23,46 @@ const changeDates = (newDates) => {
 <template>
   <header>
     <h1>Hacker News: Uncommented</h1>
+    <div class="wrapper">
+      <WeeklySlider @toggle-weekly="toggleWeekly" />
+      <DateRange v-if="isWeekly" @date-range="changeDates" />
+    </div>
   </header>
 
   <main>
-    <WeeklySlider @toggle-weekly="toggleWeekly" />
-    <DateRange v-if="isWeekly" @date-range="changeDates" />
     <NewsStories :isWeekly="isWeekly" :startDate="startDate" :endDate="endDate" />
     <!-- <span>Found a bug?</span> -->
   </main>
 </template>
 
 <style scoped>
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 header {
   line-height: 1.5;
   display: flex;
-  place-items: center;
+  flex-direction: column;
+  place-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
 }
+
 
 main {
   display: flex;
   flex-direction: column;
-  place-items: center;
-  /* border: 1px solid #ddd; */
+  place-items: flex-start;
   max-width: 100%;
 }
 
 h1 {
   font-size: 2rem;
   font-weight: 700;
-  margin: auto;
 }
 </style>

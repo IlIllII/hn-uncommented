@@ -134,17 +134,17 @@ span {
     font-size: 0.8rem;
 }
 
+
 ul {
     list-style: none;
 }
 
 li {
     text-indent: -4rem;
-    padding-left: 4rem;
+    padding-left: 2rem;
 }
 
 div {
-    border-top: 1px solid var(--color-text);
     padding: 1rem 0 0 0;
 }
 </style>
