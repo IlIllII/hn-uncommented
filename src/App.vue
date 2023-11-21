@@ -64,5 +64,10 @@ main {
 h1 {
   font-size: 2rem;
   font-weight: 700;
+  background: linear-gradient(to left, var(--color-highlight), var(--color-contrast));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 </style>

@@ -8,18 +8,21 @@
   font-weight: normal;
 }
 
-a,
-.green {
+a {
   text-decoration: none;
-  /* color: hsla(160, 100%, 37%, 1); */
   color: var(--color-highlight);
   transition: 0.4s;
 }
 
+::selection {
+  background: var(--color-contrast);
+  color: var(--color-background);
+}
+
 @media (hover: hover) {
   a:hover {
-    background-color: hsla(212, 100%, 37%, 0.2);
-    text-decoration: underline;
+    background-color: var(--color-contrast);
+    color: var(--color-background);
   }
 }
 

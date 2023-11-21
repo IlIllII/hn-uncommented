@@ -134,7 +134,6 @@ span {
     font-size: 0.8rem;
 }
 
-
 ul {
     list-style: none;
 }
