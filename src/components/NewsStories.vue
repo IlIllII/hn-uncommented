@@ -39,11 +39,12 @@ export default {
     methods: {
         async fetchWeeklyStories() {
             try {
-                const corsproxy = import.meta.env.MODE === 'production' ? "https://corsproxy.io/?fetch/" : "";
                 let dateRange = { endDate: this.endDate, startDate: this.startDate }
                 const startTimestamp = Math.floor(dateRange.startDate.getTime() / 1000);
                 const endTimestamp = Math.floor(dateRange.endDate.getTime() / 1000);
-                const res = await fetch(corsproxy + "http://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=created_at_i>" + startTimestamp + ",created_at_i<" + endTimestamp + ",points>300&hitsPerPage=1000").then(res => res.json());
+                // CORS proxy deployed using a cloudflare worker - see that code for routing and details
+                let url = "https://algolia.uncommentedhn.com"
+                const res = await fetch(url + "?tags=story&numericFilters=created_at_i>" + startTimestamp + ",created_at_i<" + endTimestamp + ",points>300&hitsPerPage=1000").then(res => res.json());
                 const stories = res.hits.sort((a, b) => b.points - a.points).slice(0, 30);
                 let formattedStories = []
                 for (const story of stories) {
