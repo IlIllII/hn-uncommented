@@ -37,7 +37,7 @@ export default {
     methods: {
         async fetchWeeklyStories() {
             try {
-                let dateRange = {endDate: this.endDate, startDate: this.startDate}
+                let dateRange = { endDate: this.endDate, startDate: this.startDate }
                 const startTimestamp = Math.floor(dateRange.startDate.getTime() / 1000);
                 const endTimestamp = Math.floor(dateRange.endDate.getTime() / 1000);
                 const res = await fetch("http://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=created_at_i>" + startTimestamp + ",created_at_i<" + endTimestamp + ",points>300&hitsPerPage=1000").then(res => res.json());
@@ -122,20 +122,21 @@ export default {
 <style scoped>
 span {
     margin-left: 1rem;
-    color: #828282;
+    color: var(--color-text);
     font-size: 0.8rem;
-}
-
-a {
-    white-space: pre;
 }
 
 ul {
     list-style: none;
 }
-/* TODO: Wrap list items */
+
+li {
+    text-indent: -4rem;
+    padding-left: 4rem;
+}
+
 div {
-    border-top: 1px solid #828282;
+    border-top: 1px solid var(--color-text);
     padding: 1rem 0 0 0;
 }
 </style>

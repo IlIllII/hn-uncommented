@@ -27,8 +27,8 @@ const changeDates = (newDates) => {
 
   <main>
     <WeeklySlider @toggle-weekly="toggleWeekly" />
-    <DateRange v-if="isWeekly" @date-range="changeDates"/>
-    <NewsStories :isWeekly="isWeekly" :startDate="startDate" :endDate="endDate"/>
+    <DateRange v-if="isWeekly" @date-range="changeDates" />
+    <NewsStories :isWeekly="isWeekly" :startDate="startDate" :endDate="endDate" />
     <!-- <span>Found a bug?</span> -->
   </main>
 </template>
@@ -36,6 +36,8 @@ const changeDates = (newDates) => {
 <style scoped>
 header {
   line-height: 1.5;
+  display: flex;
+  place-items: center;
 }
 
 main {
@@ -43,26 +45,12 @@ main {
   flex-direction: column;
   place-items: center;
   /* border: 1px solid #ddd; */
-  min-width: 1024px;
+  max-width: 100%;
 }
 
 h1 {
   font-size: 2rem;
   font-weight: 700;
   margin: auto;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    /* padding-right: calc(var(--section-gap) / 2); */
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
 }
 </style>

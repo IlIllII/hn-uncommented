@@ -29,7 +29,7 @@ export default {
 <style scoped>
 span {
     margin-left: 1rem;
-    color: #828282;
+    color: var(--color-text);
     font-size: 0.8rem;
 }
 
@@ -55,7 +55,7 @@ span {
     cursor: pointer;
     background-color: var(--color-background);
     border-radius: 12px;
-    border: solid 1px #ccc;
+    border: solid 1px var(--color-text);
     padding: 5px;
     position: relative;
 }
@@ -70,9 +70,9 @@ span {
     left: -11px;
     width: 107px;
     height: 22px;
-    background-color: white;
+    /* background-color: white; */
     background-color: var(--color-background);
-    border: solid 1px #ccc;
+    border: solid 1px var(--color-text);
     border-radius: 8px;
     transition: 0.4s;
     z-index: 1;
