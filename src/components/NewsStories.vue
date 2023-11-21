@@ -5,11 +5,10 @@ export default {
             stories: [],
             max_score: 0,
             weeksAgo: 1,
-            // startDate: new Date(),
-            // endDate: new Date(),
             checked: false
         };
     },
+
     props: {
         isWeekly: {
             type: Boolean,
@@ -21,9 +20,11 @@ export default {
             type: Date,
         },
     },
+
     mounted() {
         this.getStories(this.isWeekly);
     },
+
     watch: {
         // eslint-disable-next-line no-unused-vars
         isWeekly: function (newVal, oldVal) {
@@ -34,13 +35,15 @@ export default {
             this.getStories(this.isWeekly);
         },
     },
+
     methods: {
         async fetchWeeklyStories() {
             try {
+                const corsproxy = import.meta.env.MODE === 'production' ? "https://corsproxy.io/?fetch/" : "";
                 let dateRange = { endDate: this.endDate, startDate: this.startDate }
                 const startTimestamp = Math.floor(dateRange.startDate.getTime() / 1000);
                 const endTimestamp = Math.floor(dateRange.endDate.getTime() / 1000);
-                const res = await fetch("http://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=created_at_i>" + startTimestamp + ",created_at_i<" + endTimestamp + ",points>300&hitsPerPage=1000").then(res => res.json());
+                const res = await fetch(corsproxy + "http://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=created_at_i>" + startTimestamp + ",created_at_i<" + endTimestamp + ",points>300&hitsPerPage=1000").then(res => res.json());
                 const stories = res.hits.sort((a, b) => b.points - a.points).slice(0, 30);
                 let formattedStories = []
                 for (const story of stories) {
@@ -56,6 +59,7 @@ export default {
                 console.log(error)
             }
         },
+
         async fetchFrontPageStories() {
             try {
                 const response = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
@@ -80,12 +84,14 @@ export default {
                 console.error("An error occurred while fetching data:", error);
             }
         },
+
         async getStories(isWeekly) {
             console.log(isWeekly)
             let stories = isWeekly ? await this.fetchWeeklyStories() : await this.fetchFrontPageStories();
             this.stories = stories.sort((a, b) => b.points - a.points).slice(0, 30);
             this.max_score = Math.max(...this.stories.map(story => story.points));
         },
+
         paddedScore(score) {
             const scoreString = score.toString();
             const maxScoreString = this.max_score.toString();
@@ -95,6 +101,7 @@ export default {
             const padding = " ".repeat(paddingLength);
             return `${padding}${scoreString}`;
         },
+
         getDomain(url) {
             try {
                 const urlObject = new URL(url);
